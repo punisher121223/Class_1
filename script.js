@@ -26,7 +26,6 @@ function register() {
         return;
     }
 
-    // رمزنگاری رمز عبور
     let hashedPassword = sha256(password);
     users[username] = hashedPassword;
     saveUsers(users);
@@ -54,8 +53,7 @@ function login() {
     
     if (users[username] && users[username] === hashedPassword) {
         document.getElementById('auth-container').style.display = 'none';
-        document.getElementById('math-container').style.display = 'block';
-        generateQuestion();
+        document.getElementById('lesson-container').style.display = 'block';
     } else {
         message.textContent = "نام کاربری یا رمز عبور اشتباه است!";
         message.style.color = "red";
@@ -65,38 +63,113 @@ function login() {
 // خروج
 function logout() {
     document.getElementById('auth-container').style.display = 'block';
-    document.getElementById('math-container').style.display = 'none';
+    document.getElementById('lesson-container').style.display = 'none';
     document.getElementById('login-username').value = '';
     document.getElementById('login-password').value = '';
     document.getElementById('auth-message').textContent = '';
 }
 
-// تولید سوال ریاضی
-function generateQuestion() {
+// نمایش درس انتخاب‌شده
+function showLesson(lesson) {
+    document.getElementById('lesson-container').style.display = 'none';
+    document.getElementById(`${lesson}-lesson`).style.display = 'block';
+    if (lesson === 'math') generateMathQuestion();
+    if (lesson === 'persian') generatePersianQuestion();
+    if (lesson === 'writing') generateWritingQuestion();
+}
+
+// بازگشت به انتخاب درس
+function backToLessons() {
+    document.getElementById('math-lesson').style.display = 'none';
+    document.getElementById('persian-lesson').style.display = 'none';
+    document.getElementById('writing-lesson').style.display = 'none';
+    document.getElementById('lesson-container').style.display = 'block';
+}
+
+// درس ریاضی
+function generateMathQuestion() {
     let num1 = Math.floor(Math.random() * 10) + 1;
     let num2 = Math.floor(Math.random() * 10) + 1;
     let operator = Math.random() > 0.5 ? '+' : '-';
     let question = `${num1} ${operator} ${num2}`;
-    document.getElementById('question').textContent = question;
-
+    document.getElementById('math-question').textContent = question;
     return operator === '+' ? num1 + num2 : num1 - num2;
 }
 
-let correctAnswer = generateQuestion();
+let mathAnswer = generateMathQuestion();
 
-// بررسی جواب
-function checkAnswer() {
-    let userAnswer = parseInt(document.getElementById('answer').value);
-    let result = document.getElementById('result');
-
-    if (userAnswer === correctAnswer) {
+function checkMathAnswer() {
+    let userAnswer = parseInt(document.getElementById('math-answer').value);
+    let result = document.getElementById('math-result');
+    if (userAnswer === mathAnswer) {
         result.textContent = "آفرین! جواب درست بود.";
         result.style.color = "green";
     } else {
         result.textContent = "اشتباه شد! دوباره امتحان کن.";
         result.style.color = "red";
     }
+    mathAnswer = generateMathQuestion();
+    document.getElementById('math-answer').value = '';
+}
 
-    correctAnswer = generateQuestion();
-    document.getElementById('answer').value = '';
+// درس فارسی (شناخت حروف و کلمات)
+const persianQuestions = [
+    { question: "د_ن", answer: "ا" },
+    { question: "م_در", answer: "ا" },
+    { question: "ک_تاب", answer: "ی" }
+];
+let persianIndex = 0;
+
+function generatePersianQuestion() {
+    let q = persianQuestions[persianIndex];
+    document.getElementById('persian-question').textContent = q.question;
+    return q.answer;
+}
+
+let persianAnswer = generatePersianQuestion();
+
+function checkPersianAnswer() {
+    let userAnswer = document.getElementById('persian-answer').value;
+    let result = document.getElementById('persian-result');
+    if (userAnswer === persianAnswer) {
+        result.textContent = "آفرین! درست بود.";
+        result.style.color = "green";
+    } else {
+        result.textContent = "اشتباه شد! دوباره امتحان کن.";
+        result.style.color = "red";
+    }
+    persianIndex = (persianIndex + 1) % persianQuestions.length;
+    persianAnswer = generatePersianQuestion();
+    document.getElementById('persian-answer').value = '';
+}
+
+// درس نگارش (جمله‌سازی)
+const writingQuestions = [
+    { question: "من به ___ می‌روم.", answer: "مدرسه" },
+    { question: "خورشید در ___ می‌درخشد.", answer: "آسمان" },
+    { question: "ما با هم ___ می‌کنیم.", answer: "بازی" }
+];
+let writingIndex = 0;
+
+function generateWritingQuestion() {
+    let q = writingQuestions[writingIndex];
+    document.getElementById('writing-question').textContent = q.question;
+    return q.answer;
+}
+
+let writingAnswer = generateWritingQuestion();
+
+function checkWritingAnswer() {
+    let userAnswer = document.getElementById('writing-answer').value;
+    let result = document.getElementById('writing-result');
+    if (userAnswer === writingAnswer) {
+        result.textContent = "آفرین! درست بود.";
+        result.style.color = "green";
+    } else {
+        result.textContent = "اشتباه شد! دوباره امتحان کن.";
+        result.style.color = "red";
+    }
+    writingIndex = (writingIndex + 1) % writingQuestions.length;
+    writingAnswer = generateWritingQuestion();
+    document.getElementById('writing-answer').value = '';
 }
