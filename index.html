@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش کلاس اول</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="auth-container">
+        <h1>ثبت‌نام یا ورود</h1>
+        <div id="register-form">
+            <h2>ثبت‌نام</h2>
+            <input type="text" id="reg-username" placeholder="نام کاربری">
+            <input type="password" id="reg-password" placeholder="رمز عبور">
+            <button onclick="register()">ثبت‌نام</button>
+        </div>
+        <div id="login-form">
+            <h2>ورود</h2>
+            <input type="text" id="login-username" placeholder="نام کاربری">
+            <input type="password" id="login-password" placeholder="رمز عبور">
+            <button onclick="login()">ورود</button>
+        </div>
+        <p id="auth-message"></p>
+    </div>
+
+    <div class="container" id="math-container" style="display: none;">
+        <h1>تمرین ریاضی کلاس اول</h1>
+        <p>سوال: <span id="question"></span></p>
+        <input type="number" id="answer" placeholder="جوابت رو بنویس">
+        <button onclick="checkAnswer()">بررسی کن</button>
+        <p id="result"></p>
+        <button onclick="logout()">خروج</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
