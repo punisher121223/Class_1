@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تمرین درس فارسی</title>
+    <style>
+        body { font-family: 'Vazir', Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .exercise { margin: 20px; padding: 10px; border: 1px solid #ccc; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        .result { margin-top: 10px; }
+    </style>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font/dist/font-face.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1 id="title">تمرین درس فارسی</h1>
+    <div id="exercise-container" class="exercise"></div>
+
+    <script>
+        function toPersianDigits(num) {
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().replace(/\d/g, d => persianDigits[d]);
+        }
+
+        const exercises = {
+            1: {
+                title: "درس ۱: آ ا",
+                question: "کلمه‌ی درست را انتخاب کنید: من ... می‌نوشم.",
+                options: ["آب", "باب"],
+                answer: "آب"
+            },
+            2: {
+                title: "درس ۲: ب",
+                question: "در ... گل می‌روید.",
+                options: ["بابا", "باغ"],
+                answer: "باغ"
+            },
+            3: {
+                title: "درس ۳: پ",
+                question: "در آسمان ... پرواز می‌کند.",
+                options: ["پرنده", "پدر"],
+                answer: "پرنده"
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonId = urlParams.get('lesson');
+        const exercise = exercises[lessonId] || exercises[1];
+
+        document.getElementById('title').innerText = exercise.title;
+        const container = document.getElementById('exercise-container');
+        container.innerHTML = `
+            <h3>تمرین ${toPersianDigits(1)}</h3>
+            <p>${exercise.question}</p>
+            <input type="radio" name="q1" value="${exercise.options[0]}"> ${exercise.options[0]}
+            <input type="radio" name="q1" value="${exercise.options[1]}"> ${exercise.options[1]}
+            <br><br>
+            <button onclick="checkAnswer()">بررسی پاسخ</button>
+            <p id="result" class="result"></p>
+        `;
+
+        function checkAnswer() {
+            const selected = document.querySelector('input[name="q1"]:checked');
+            const result = document.getElementById('result');
+            if (selected && selected.value === exercise.answer) {
+                result.innerText = 'پاسخ درست است!';
+                result.style.color = 'green';
+            } else {
+                result.innerText = `پاسخ غلط است! پاسخ درست: ${exercise.answer}`;
+                result.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
