@@ -3,68 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آموزش کلاس اول ابتدایی</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ورود و ثبت‌نام</title>
+    <style>
+        body { font-family: 'Vazir', Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; }
+        input { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .error { color: red; display: none; }
+    </style>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font/dist/font-face.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <!-- بخش ثبت‌نام و ورود -->
-    <div class="container" id="auth-container">
-        <h1>ثبت‌نام یا ورود</h1>
-        <div id="register-form">
-            <h2>ثبت‌نام</h2>
-            <input type="text" id="reg-username" placeholder="نام کاربری">
-            <input type="password" id="reg-password" placeholder="رمز عبور">
-            <button onclick="register()">ثبت‌نام</button>
-        </div>
-        <div id="login-form">
-            <h2>ورود</h2>
-            <input type="text" id="login-username" placeholder="نام کاربری">
-            <input type="password" id="login-password" placeholder="رمز عبور">
-            <button onclick="login()">ورود</button>
-        </div>
-        <p id="auth-message"></p>
+    <div class="container">
+        <h2>ورود یا ثبت‌نام</h2>
+        <input type="text" id="username" placeholder="نام کاربری">
+        <input type="password" id="password" placeholder="رمز عبور">
+        <button onclick="login()">ورود</button>
+        <button onclick="register()">ثبت‌نام</button>
+        <p class="error" id="error">نام کاربری یا رمز عبور اشتباه است!</p>
     </div>
 
-    <!-- بخش انتخاب درس -->
-    <div class="container" id="lesson-container" style="display: none;">
-        <h1>درس‌های کلاس اول</h1>
-        <button onclick="showLesson('math')">ریاضی</button>
-        <button onclick="showLesson('persian')">فارسی</button>
-        <button onclick="showLesson('writing')">نگارش</button>
-        <button onclick="logout()">خروج</button>
-    </div>
+    <script>
+        function toPersianDigits(num) {
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().replace(/\d/g, d => persianDigits[d]);
+        }
 
-    <!-- بخش درس ریاضی -->
-    <div class="container" id="math-lesson" style="display: none;">
-        <h1>درس ریاضی</h1>
-        <p>سوال: <span id="math-question"></span></p>
-        <input type="number" id="math-answer" placeholder="جوابت رو بنویس">
-        <button onclick="checkMathAnswer()">بررسی کن</button>
-        <p id="math-result"></p>
-        <button onclick="backToLessons()">بازگشت</button>
-    </div>
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username && password) {
+                const encodedPass = btoa(password);
+                localStorage.setItem('user_' + username, encodedPass);
+                alert('ثبت‌نام با موفقیت انجام شد!');
+            } else {
+                alert('لطفاً همه فیلدها را پر کنید!');
+            }
+        }
 
-    <!-- بخش درس فارسی -->
-    <div class="container" id="persian-lesson" style="display: none;">
-        <h1>درس فارسی</h1>
-        <p>کلمه ناقص: <span id="persian-question"></span></p>
-        <input type="text" id="persian-answer" placeholder="حرف گمشده رو بنویس">
-        <button onclick="checkPersianAnswer()">بررسی کن</button>
-        <p id="persian-result"></p>
-        <button onclick="backToLessons()">بازگشت</button>
-    </div>
-
-    <!-- بخش درس نگارش -->
-    <div class="container" id="writing-lesson" style="display: none;">
-        <h1>درس نگارش</h1>
-        <p>جمله ناقص: <span id="writing-question"></span></p>
-        <input type="text" id="writing-answer" placeholder="کلمه مناسب رو بنویس">
-        <button onclick="checkWritingAnswer()">بررسی کن</button>
-        <p id="writing-result"></p>
-        <button onclick="backToLessons()">بازگشت</button>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
-    <script src="script.js"></script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const storedPass = localStorage.getItem('user_' + username);
+            if (storedPass && atob(storedPass) === password) {
+                window.location.href = 'lessons.html';
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
