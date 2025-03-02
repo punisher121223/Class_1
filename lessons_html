@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دروس کلاس اول</title>
+    <style>
+        body { font-family: 'Vazir', Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .lesson { display: inline-block; width: 200px; padding: 20px; margin: 10px; background-color: #f0f0f0; cursor: pointer; }
+        .lesson:hover { background-color: #e0e0e0; }
+    </style>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font/dist/font-face.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1>دروس کلاس اول ابتدایی</h1>
+    <div>
+        <div class="lesson" onclick="window.location.href='farsi_lessons.html'">فارسی</div>
+        <div class="lesson" onclick="window.location.href='writing_lessons.html'">نگارش</div>
+        <div class="lesson" onclick="window.location.href='math_lessons.html'">ریاضی</div>
+    </div>
+</body>
+</html>
