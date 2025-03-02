@@ -47,7 +47,7 @@
             const password = document.getElementById('password').value;
             const storedPass = localStorage.getItem('user_' + username);
             if (storedPass && atob(storedPass) === password) {
-                window.location.href = '/School-Grade1/lessons.html'; // اسم مخزن رو اصلاح کن
+                window.location.href = 'lessons.html'; // مسیر اصلاح‌شده
             } else {
                 document.getElementById('error').style.display = 'block';
             }
